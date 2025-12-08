@@ -1,0 +1,49 @@
+{
+  "name": "messageme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akmal-solakhiddinov/messageme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/akmal-solakhiddinov/messageme/issues"
+  },
+  "homepage": "https://github.com/akmal-solakhiddinov/messageme#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.x",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.x",
+    "helmet": "^7.x",
+    "joi": "^17.x",
+    "jsonwebtoken": "^9.0.2",
+    "socket.io": "^4.6.x",
+    "uuid": "^13.0.0",
+    "winston": "^3.x"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^4.17.x",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.x",
+    "jest": "^29.x",
+    "prisma": "^6.19.0",
+    "rimraf": "^6.1.0",
+    "socket.io-client": "^4.6.x",
+    "ts-node-dev": "^2.x",
+    "typescript": "^5.x"
+  }
+}
