@@ -40,7 +40,7 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-            cd /var/www/ms
+            cd /var/www/messageme
             git pull origin main
             docker-compose down
             docker-compose build --no-cache
