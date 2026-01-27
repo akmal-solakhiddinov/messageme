@@ -6,19 +6,38 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-
     depends_on:
       - db
+    networks:
+      - app-network
 
   db:
-    image: postgres
+    image: postgres:15
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=messagemedb
-
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: messagemedb
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  prisma-studio:
+    image: timothyjmiller/prisma-studio:latest
+    ports:
+      - "5555:5555"
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/messagemedb?schema=public
+    volumes:
+      - ./prisma:/app/prisma
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   db-data:

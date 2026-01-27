@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  username  String? @unique
+  fullName  String?
+  password  String
+  avatarUrl String? @db.Text
+  isActive  Boolean @default(true)
+  isPrivate Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversations ConversationParticipant[]
+  messages      Message[]
+
+  @@index([email])
+  @@index([username])
+}
+
+model Conversation {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lastMessageId String?  @unique
+  lastMessage   Message? @relation("LastMessage", fields: [lastMessageId], references: [id])
+
+  participants ConversationParticipant[]
+  messages     Message[]                 @relation("ConversationMessages")
+}
+
+model ConversationParticipant {
+  id             String @id @default(uuid())
+  userId         String
+  conversationId String
+
+  unreadCount Int @default(0)
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, conversationId])
+}
+
+model Message {
+  id             String          @id @default(uuid())
+  content        String?         @db.Text
+  attachmentUrl  String?         @db.Text
+  attachmentType AttachmentType?
+
+  senderId       String
+  conversationId String
+
+  status MessageStatus @default(unseen)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender        User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  conversation  Conversation  @relation("ConversationMessages", fields: [conversationId], references: [id], onDelete: Cascade)
+  lastMessageOf Conversation? @relation("LastMessage")
+}
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  FILE
+  AUDIO
+}
+
+enum MessageStatus {
+  seen
+  unseen
+}
