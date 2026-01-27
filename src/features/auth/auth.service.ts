@@ -1,8 +1,12 @@
-import { PrismaClient } from "../../generated/prisma/client";
 import bcrypt from "bcrypt";
 import tokenService from "../tokens/token";
 import logger from "../../utils/logger";
 import token from "../tokens/token";
+import { PrismaClient } from "../../generated/prisma/client";
+
+ 
+
+
 const prisma = new PrismaClient();
 const SALT_ROUNDS = 10; // Use a constant for bcrypt salt rounds
 
