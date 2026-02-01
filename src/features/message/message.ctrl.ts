@@ -32,15 +32,18 @@ class MessageCtrl {
   async getMessages(req: Request, res: Response) {
     try {
       const conversationId = req.params.conversationId;
+      const myId = req.user?.id;
 
-      if (!conversationId) {
-        return res.status(400).json({ message: "conversationId is required" });
+      if (!conversationId || !myId) {
+        res.status(400).json({ message: "conversationId is required" });
+        return;
       }
 
-      const messages = await messageService.getMessages(conversationId);
+      const messages = await messageService.getMessages(conversationId, myId);
 
       // Returns MessagesResponse
-      return res.status(200).json({ messages });
+      res.status(200).json(messages);
+      return;
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }

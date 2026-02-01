@@ -99,7 +99,7 @@ class RoomService {
           id: other.id,
           fullName: other.fullName || other.username || "Unknown",
           avatarUrl: other.avatarUrl,
-          isActive: true,
+          isActive: other.isActive,
         },
         lastMessage: item.conversation.lastMessage?.content ?? "",
         lastMessageTime:

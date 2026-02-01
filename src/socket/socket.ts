@@ -4,7 +4,7 @@ import { EVENTS } from "./socketEvents";
 import tokenService from "../features/tokens/token";
 import { messageHandler } from "./handlers/message.handler";
 import { roomHandler } from "./handlers/room.handler";
-import { userHadler } from "./handlers/user.handler";
+import { userHandler } from "./handlers/user.handler";
 
 export function initializeSocketHandlers(io: Server) {
   logger.info("Initializing Socket.IO handlers...");
@@ -32,8 +32,8 @@ export function initializeSocketHandlers(io: Server) {
       socket.emit("salom", "qalay");
     });
 
-    userHadler(socket);
-    messageHandler(socket);
+    userHandler(socket);
+    messageHandler(socket, io);
     roomHandler(socket);
   });
 }

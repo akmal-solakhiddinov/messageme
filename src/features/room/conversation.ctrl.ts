@@ -10,7 +10,7 @@ class ConversationCtrl {
   ) {
     try {
       const myId = req.user!.id;
-      const otherId = req.params.conversationId;
+      const otherId = req.params.friendId;
 
       console.log(otherId, "==============other id ========================");
 

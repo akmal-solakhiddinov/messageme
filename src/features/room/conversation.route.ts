@@ -6,7 +6,7 @@ const ConversationRouter = Router();
 
 // create or get a conversation with a user
 ConversationRouter.post(
-  "/:conversationId",
+  "/:friendId",
   AuthMiddleware,
   conversationCtrl.getOrCreateConversation,
 );
